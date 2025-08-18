@@ -442,6 +442,167 @@
         <section id="complexidade" class="section">
             <h2>3. Análise Matemática de Complexidade</h2>
 
+<h3>Análise de Custo Linha por Linha</h3>
+            <p>Para uma análise mais detalhada, vamos examinar o custo computacional de cada linha do algoritmo iterativo:</p>
+
+            <div class="interactive-demo">
+                <h4>Código com Análise de Custo</h4>
+                <table class="performance-table" id="cost-analysis-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 60%;">Linha de Código</th>
+                            <th style="width: 40%;">Custo Computacional</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>function mdcIterativo(a, b) {</code></td>
+                            <td><span class="cost-constant">Atribuição: 1</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>&nbsp;&nbsp;a = Math.abs(a);</code></td>
+                            <td><span class="cost-constant">Inicialização: 1</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>&nbsp;&nbsp;b = Math.abs(b);</code></td>
+                            <td><span class="cost-constant">Inicialização: 1</span></td>
+                        </tr>
+                        <tr class="loop-header">
+                            <td><code>&nbsp;&nbsp;while (b !== 0) {</code></td>
+                            <td><span class="cost-loop">Comparação: (k+1)</span><br><small>onde k = número de iterações</small></td>
+                        </tr>
+                        <tr class="loop-body">
+                            <td><code>&nbsp;&nbsp;&nbsp;&nbsp;let temp = b;</code></td>
+                            <td><span class="cost-loop">Atribuição: k</span></td>
+                        </tr>
+                        <tr class="loop-body">
+                            <td><code>&nbsp;&nbsp;&nbsp;&nbsp;b = a % b;</code></td>
+                            <td><span class="cost-loop">Divisão + Atribuição: k</span></td>
+                        </tr>
+                        <tr class="loop-body">
+                            <td><code>&nbsp;&nbsp;&nbsp;&nbsp;a = temp;</code></td>
+                            <td><span class="cost-loop">Atribuição: k</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>&nbsp;&nbsp;}</code></td>
+                            <td><span class="cost-constant">-</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>&nbsp;&nbsp;return a;</code></td>
+                            <td><span class="cost-constant">Retorno: 1</span></td>
+                        </tr>
+                        <tr>
+                            <td><code>}</code></td>
+                            <td><span class="cost-constant">-</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Análise de Complexidade por Caso</h4>
+
+            <div class="alert alert-warning">
+                <h5>🔴 PIOR CASO (Números de Fibonacci Consecutivos):</h5>
+                <p>Exemplo: MDC(F<sub>n+1</sub>, F<sub>n</sub>) onde F são números de Fibonacci</p>
+                <div class="math-formula">
+                    T(a, b) = 3 + k × 3 + 1<br>
+                    onde k ≈ log<sub>φ</sub>(min(a, b)) iterações
+                </div>
+                <div class="complexity-formula">
+                    <strong>f(n) = 3 log<sub>φ</sub>(n) + 4 = O(log n)</strong>
+                </div>
+                <p><small>Exemplo prático: MDC(89, 55) requer 10 passos</small></p>
+            </div>
+
+            <div class="alert alert-info">
+                <h5>🟢 MELHOR CASO (Um número divide o outro):</h5>
+                <p>Exemplo: MDC(15, 5) onde b divide a perfeitamente</p>
+                <div class="math-formula">
+                    T(a, b) = 3 + 1 × 3 + 1 = 7 operações
+                </div>
+                <div class="complexity-formula">
+                    <strong>f(n) = 7 = O(1)</strong>
+                </div>
+                <p><small>Uma única iteração: a % b = 0, então o algoritmo termina</small></p>
+            </div>
+
+            <h3>Fórmula de Complexidade do Algoritmo de Euclides</h3>
+            <p>O Algoritmo de Euclides mantém complexidade logarítmica em todos os casos:</p>
+
+            <div class="math-formula">
+                <strong>Custo Total:</strong><br>
+                T(a, b) = 3 + k × 3<br>
+                onde k = número de iterações ≤ log₂(min(a, b))
+            </div>
+
+            <div class="complexity-formula">
+                <strong>Complexidade Final: T(n) = O(log n)</strong>
+            </div>
+
+            <h4>Exemplos Práticos dos Casos</h4>
+
+            <div class="interactive-demo">
+                <h5>Demonstração dos Casos Extremos</h5>
+                <table class="performance-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Caso</th>
+                            <th>Entrada (a, b)</th>
+                            <th>Passos</th>
+                            <th>Sequência de Operações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="background: #d5f4e6;">
+                            <td><strong>Melhor Caso</strong></td>
+                            <td>MDC(20, 5)</td>
+                            <td>1</td>
+                            <td>20 % 5 = 0 → Resultado: 5</td>
+                        </tr>
+                        <tr style="background: #d5f4e6;">
+                            <td><strong>Melhor Caso</strong></td>
+                            <td>MDC(100, 25)</td>
+                            <td>1</td>
+                            <td>100 % 25 = 0 → Resultado: 25</td>
+                        </tr>
+                        <tr style="background: #fff3cd;">
+                            <td><strong>Caso Médio</strong></td>
+                            <td>MDC(48, 18)</td>
+                            <td>3</td>
+                            <td>48%18=12 → 18%12=6 → 12%6=0 → Resultado: 6</td>
+                        </tr>
+                        <tr style="background: #f8d7da;">
+                            <td><strong>Pior Caso</strong></td>
+                            <td>MDC(55, 34)</td>
+                            <td>9</td>
+                            <td>Fibonacci: 55,34 → 34,21 → 21,13 → 13,8 → 8,5 → 5,3 → 3,2 → 2,1 → 1,0</td>
+                        </tr>
+                        <tr style="background: #f8d7da;">
+                            <td><strong>Pior Caso</strong></td>
+                            <td>MDC(89, 55)</td>
+                            <td>10</td>
+                            <td>Sequência completa de Fibonacci até convergir</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Justificativa da Complexidade O(log n)</h4>
+            <ul style="margin-left: 20px;">
+                <li><strong>Inicialização:</strong> O(1) - operações constantes</li>
+                <li><strong>Loop principal:</strong> Executa no máximo log₂(min(a,b)) iterações</li>
+                <li><strong>Operações por iteração:</strong> O(1) - divisão, atribuições</li>
+                <li><strong>Total:</strong> O(1) + O(log n) × O(1) = O(log n)</li>
+            </ul>
+
+            <h3>Notações Assintóticas</h3>
+
+            <div class="math-formula">
+                <strong>Big-O (Limite Superior):</strong> T(n) = O(log n)<br>
+                <strong>Ω (Limite Inferior):</strong> T(n) = Ω(1)<br>
+                <strong>Θ (Limite Justo):</strong> T(n) = Θ(log n) para o caso médio
+            </div>
+
             <h3>Análise de Recorrência</h3>
             <p>Para analisar a complexidade do Algoritmo de Euclides, consideremos a relação de recorrência:</p>
 
